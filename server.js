@@ -15,9 +15,10 @@ dotenv.config();
 
 connectDB();
 
-passportConfig(passport);
-
 const app = express();
+
+passportConfig(passport);
+app.use(passport.initialize());
 
 app.use(express.json());
 
@@ -35,7 +36,7 @@ app.use(errorHandler);
 
 const PORT = process.env.PORT || 3001;
 
-app.listen(
+const server = app.listen(
   PORT,
   console.log(
     `Server is running in ${process.env.NODE_ENV} on port ${PORT}`.cyan.inverse
