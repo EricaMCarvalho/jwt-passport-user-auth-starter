@@ -1,19 +1,21 @@
 const express = require('express');
-const dotenv = require('dotenv');
 const morgan = require('morgan');
 const colors = require('colors');
 const cookieParser = require('cookie-parser');
+const passport = require('passport');
+const dotenv = require('dotenv');
 
-const connectDB = require('./config/database');
 const errorHandler = require('./middleware/errorHandler');
-
-// Routes
+const connectDB = require('./config/database');
+const passportConfig = require('./config/passport');
 const authRouter = require('./routes/auth');
 const adminRouter = require('./routes/admin');
 
 dotenv.config();
 
 connectDB();
+
+passportConfig(passport);
 
 const app = express();
 
@@ -25,11 +27,9 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
-// Routers
+// Routes
 app.use('/api/auth', authRouter);
 app.use('/api/admin', adminRouter);
-
-app.get('/', (req, res) => res.send('The API is running...'));
 
 app.use(errorHandler);
 
