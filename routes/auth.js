@@ -1,7 +1,7 @@
 const express = require('express');
 const passport = require('passport');
 
-const { register, login, getMe } = require('../controllers/auth');
+const { register, login, getMe, logout } = require('../controllers/auth');
 const protect = require('../middleware/auth/protect');
 const sendTokenResponse = require('../utils/sendTokenResponse');
 
@@ -10,6 +10,7 @@ const router = express.Router();
 router.post('/register', register);
 router.post('/login', login);
 router.get('/me', protect, getMe);
+router.get('/logout', logout);
 
 // Google routes
 router.get(
